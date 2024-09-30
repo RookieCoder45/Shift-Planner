@@ -55,12 +55,17 @@ function renderCalendar(shift) {
       calendarContainer.append(dayCell)
     }
     else  {
-      if (scheduleIndex > 11){scheduleIndex = 0}
+      if (scheduleIndex > 11){scheduleIndex = 0};
       const dayCell = document.createElement("div")
       
       dayCell.classList.add(`${shiftSchedule[shift][scheduleIndex]}`)
       scheduleIndex++;
       dayCell.innerText = i - firstDayOfMonth + 1
+      if (dayCell.classList.contains("day")) {
+        dayCell.style.backgroundColor = colorForDayShift(shift)
+        
+      }
+    
       calendarContainer.append(dayCell)
     }
   }
@@ -107,4 +112,24 @@ function getScheduleIndex(schedule){
   const daysInPrevMonth = new Date(year, month, 0).getDate();
   const endDate = new Date(year, month -1, daysInPrevMonth); 
   return Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24));
+}
+
+
+function colorForDayShift (shifName) {
+  switch (shifName) {
+    case "i": return "#95d5b2";break;
+    case "j": return "#0ca5f3";break;
+    case "k": return "#ff34ce";break;
+    case "l": return "#daec13";break;
+  }
+}
+
+
+
+const shiftData = {
+  "i": {
+    "shiftSchedule":[ "night", "night", "night","dayoff", "dayoff", "dayoff", "dayoff", "dayoff", "dayoff", "day", "day", "day"],
+    "day-color": "#95d5b2",
+    "night-color": "#2d6a4f"
+  }
 }
