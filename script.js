@@ -2,13 +2,13 @@ const prevBtn = document.querySelector(".prev-month");
 const nextBtn = document.querySelector(".next-month");
 const calendarContainer = document.querySelector(".calendar-container");
 const monthYearLabel = document.getElementById("monthYear");
-const shiftSelectionBtn = document.querySelector(".shift-selector")
+const shiftSelectionBtn = document.querySelectorAll(".shift-selector button")
 
 const shiftSchedule = {
-  "i": [],
-  "j": ["day", "day", "day", "night", "night", "night", "day off", "day off", "day off", "day off", "day off", "day off"],
-  "k": [],
-  "l": []
+  "i": [ "night", "night", "night","dayoff", "dayoff", "dayoff", "dayoff", "dayoff", "dayoff", "day", "day", "day"],
+  "j": ["day", "day", "day", "night", "night", "night", "dayoff", "dayoff", "dayoff", "dayoff", "dayoff", "dayoff"],
+  "k": ["dayoff", "dayoff", "dayoff", "day", "day", "day", "night", "night", "night", "dayoff", "dayoff", "dayoff" ],
+  "l": ["dayoff", "dayoff", "dayoff", "dayoff", "dayoff", "dayoff", "day", "day", "day", "night", "night", "night"]
 }
 
 const jShiftScedule = ["day", "day", "day", "night", "night", "night", "day-off", "day-off", "day-off", "day-off", "day-off", "day-off"]
@@ -23,12 +23,24 @@ let year = data.getFullYear();
 let month = data.getMonth();
 let day = data.getDate();
 
+let selectedShift = "j"
+
 console.log(shiftSelectionBtn)
+
+for (btn of shiftSelectionBtn) {
+  btn.addEventListener("click", (e)=> {
+    selectedShift = e.target.id
+    document.querySelector(".selected-shift").innerHTML = selectedShift
+    renderCalendar(selectedShift)
+  })
+  
+}
+
 
 
 monthYearLabel.innerHTML = `${months[month]} ${year}`;
 
-function renderCalendar() {
+function renderCalendar(shift) {
   calendarContainer.innerHTML = "";
   const firstDayOfMonth = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -45,8 +57,8 @@ function renderCalendar() {
     else  {
       if (scheduleIndex > 11){scheduleIndex = 0}
       const dayCell = document.createElement("div")
-      console.log(scheduleIndex)
-      dayCell.classList.add(`${jShiftScedule[scheduleIndex]}`)
+      
+      dayCell.classList.add(`${shiftSchedule[shift][scheduleIndex]}`)
       scheduleIndex++;
       dayCell.innerText = i - firstDayOfMonth + 1
       calendarContainer.append(dayCell)
@@ -58,10 +70,10 @@ function renderCalendar() {
 }
   
 
+renderCalendar(selectedShift)
 
 
 
-renderCalendar()
 
 
 nextBtn.addEventListener("click", () => {
@@ -71,7 +83,7 @@ nextBtn.addEventListener("click", () => {
     year++;
   }
   monthYearLabel.innerHTML = `${months[month]} ${year}`;
-  renderCalendar();
+  renderCalendar(selectedShift);
 });
 
 
@@ -82,7 +94,7 @@ prevBtn.addEventListener("click", () => {
     year--;
   }
   monthYearLabel.innerHTML = `${months[month]} ${year}`;
-  renderCalendar();
+  renderCalendar(selectedShift);
 })
 
 
