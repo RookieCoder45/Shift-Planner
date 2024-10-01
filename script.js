@@ -30,7 +30,7 @@ console.log(shiftSelectionBtn)
 for (btn of shiftSelectionBtn) {
   btn.addEventListener("click", (e)=> {
     selectedShift = e.target.id
-    document.querySelector(".selected-shift").innerHTML = selectedShift
+    
     renderCalendar(selectedShift)
   })
   
@@ -65,7 +65,8 @@ function renderCalendar(shift) {
         dayCell.style.backgroundColor = colorForDayShift(shift)
         
       }
-    
+      drawHolidays(month, i - firstDayOfMonth + 1, dayCell)
+      addPayrollDates(new Date(year, month, i - firstDayOfMonth + 1), dayCell)
       calendarContainer.append(dayCell)
     }
   }
@@ -125,6 +126,36 @@ function colorForDayShift (shifName) {
 }
 
 
+function drawHolidays(month, date, obj) {
+  if (month === 0 && date === 1){
+    obj.classList.add("holiday")
+  } else if (month === 1 && date === 19){
+    obj.classList.add("holiday")
+  }else if (month === 2 && date === 29){
+    obj.classList.add("holiday")
+  }else if (month === 4 && date === 20){
+    obj.classList.add("holiday")
+  }else if (month === 6 && date === 1){
+    obj.classList.add("holiday")
+  }else if (month === 8 && date === 2 || month === 8 && date=== 30){
+    obj.classList.add("holiday")
+  }else if (month === 9 && date === 14){
+    obj.classList.add("holiday")
+  }else if (month === 10 && date === 11){
+    obj.classList.add("holiday")
+  }else if (month === 11 && date === 25){
+    obj.classList.add("holiday")
+  }
+}
+
+
+function addPayrollDates(currentDate, obj) {
+  const startDate = new Date("2024-06-26"); // June 25, 2024
+  const differenceInDays = Math.ceil((currentDate - startDate) / (1000 * 60 * 60 * 24));
+  if (differenceInDays % 14 === 0) {
+    obj.classList.add("payroll-date");
+  }
+}
 
 const shiftData = {
   "i": {
