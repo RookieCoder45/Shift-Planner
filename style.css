@@ -230,19 +230,18 @@ label {
 }
 
 .holiday {
-  background-image: url("../calendar/images/canada.png");
+  background-image: url("canada.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  
+  z-index: 1;
 }
 
 .payroll-date {
-  background-image: url("../calendar/images/cash-coin.svg");
+  background-image: url("cash-coin.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  
 }
 
 
